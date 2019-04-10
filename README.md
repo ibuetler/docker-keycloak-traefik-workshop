@@ -112,26 +112,135 @@ Due to the self-signed TLS certificates (traefik will generate them on the fly f
 
 ![ttyd2](ttyd2.png)
 
-## Conclusion 0x01
+## Conclusion Step 1-5
 If you did the tutorial until here? This is awesome. Until now you have setup a load balancer (traefik) and you put a service (ttyd) behind the load balancer. You have SSL/TLS up and running and the dynamic registration of your application (ttyd) with traefik works like charm. You have not yet added authentication to it (next step) but still, this is a first success. 
 
 ![lion](lion.png)
 
 
 
+## Keycloak Setup
+For the sake of this tutorial I use keycloak, an open-source identity provider `IdP` that runs smoothly with docker. If you don’t know keycloak, I encourage you to get into this project. It is the open source version of the RedHat RH-SSO solution. 
 
+We need to setup and configure Keycloak. Thus, please follow the instructions below, assuming have successfully done step 1 to step 5 in this tutorial. 
 
-
-
-
-## Keycloak IdP (Identity Provider)
-For the sake of this tutorial I use keycloak, an open-source identity provider that runs smoothly with docker. If you don’t know keycloak, I encourage you to get into this project. It is the open source version of the RedHat RH-SSO solution. 
-
-Please setup keycloak using the following commands
-```
-mkdir /opt/git
-git clone https://github.com/ibuetler/e1pub.git
-cd /opt/git/e1pub/docker/keycloak-idp-docker
-mkdir -p /opt/data/keycloak/postgres/data/
+Please open another new linux terminal. 
 
 ```
+cd /opt/git/docker-keycloak-traefik-workshop/keycloak
+docker-compose up -d  
+```
+
+If you run this the first time, it will pull the keycloak images
+
+![keycloakpull](keycloakpull.png)
+
+Once the prompt returns, you can start monitoring the logs
+
+```
+cd /opt/git/docker-keycloak-traefik-workshop/keycloak
+docker-compose logs -f 
+```
+
+You must wait 30-60 seconds before keycloak is fully setup. Plese wait some time. 
+
+Afterwards, you should be able to use Firefox to reach your newly created IdP. 
+
+* https://auth.idocker.hacking-lab.com/
+
+
+Traefik is issuing another self-signed TLS certificate. 
+
+![ktls](ktls.png)
+
+Please proceed again and you should see the IdP login prompt. 
+
+![keycloakauth](keycloakauth.png)
+
+```
+username: admin
+password: changeme-keycloak
+```
+
+![keycloaklogin](keycloaklogin.png)
+
+And voilà, your keycloak IdP should be up and working
+
+![keycloakok](keycloakok.png)
+
+
+## Conclusion "Keycloak Setup"
+If you did the tutorial until here? You are awesome. You have now Keycloak IdP, together with Traefik up and running. Keycloak is not yet setup for you. But still, this is great work. Well done!
+
+![lion](lion.png)
+
+## Final Demo Setup
+Please note; We want to secure an application (ttyd) that comes without built-in authentication and authorization and have therefore configured `traefik`, `keycloak` and `ttyd` in the steps above. 
+
+What is the final step? A new docker is required. The `keycloak-gatekeeper` docker image in front of the ttyd docker will do the job for us. The `keycloak-gatekeerp` docker service will ensure users must authenticate before the ttyd service can be used. In other words, keycloak-gatekeeper is kind of a reverse-proxy in front of our application that has no built-in authentication and authorization layer but integrates very well with Keycloak IdP. 
+
+![gk](gk.png)
+
+As you can see in the picture above, traefik is handling all internet traffic and forwards the traffic to the backend service(s). Backend services are not configured statically, instead they register on-demand once we spin-up the backend docker service.  
+
+## Keycloak Gatekeeper
+With OIDC (openid-connect), the client and IdP are sharing a shared secret. Thus, we must first setup a new client in Keycloak and copy the secret from there. We must then use the new key in our keycloak-gatekeeper configuration. These are the lasts steps in this tutorial. 
+
+## Create New Client in Keycloak
+You must create a new client in Keycloak. Please follow the screenshots below. Please click on "Clients" in the left menu and then click on "Create" as in the picture below. 
+
+![kc1](kc1.png)
+
+Please give it a name and configure the client URL. For this tutorial `https://ttyd.idocker.hacking-lab.com` 
+
+![kc2](kc2.png)
+
+Press choose "confidential" in the "Access Type" item and press "Save"
+
+![kc3](kc3.png)
+
+After saving, please click the "Credentials" menu item where you will find the secret we need for keycloak-gatekeeper. Copy the Secret as you need it later when configuring `keycloak-gatekeeper`
+
+![kc4](kc4.png)
+
+
+## Create Client Audience and Scope
+With the new Keycloak software, a user must be assigned to a valid audience and scope before he or she can use a keycloak enabled service. Thus, let's configure the audience and scope. 
+
+Please click on "Client Scopes" in the left menu and press "Create"
+
+![kc5](kc5.png)
+
+Give a Name and Description. I have chosen ttyd. 
+
+![kc6](kc6.png)
+
+Please click on "Mappers". 
+
+![kc7](kc7.png)
+
+Please configure the mapper the same as in the screenshot below. Most important, you must use `Audience` in the mapper type field. 
+
+1. Name = ttyd 
+2. Mapper Type = Audience
+3. Add to ID token = ON
+4. Add to access token = ON 
+
+![kc8](kc8.png)
+
+Last, you must apply the newly created mapper to your ttyd client configuration. 
+
+![kc9](kc9.png)
+
+Now you have successfully finished the keycloak configuration for the new (ttyd) client application. 
+
+The settings are applied to the "Master Realm". If we would have created a new REALM when we started configuring keycloak, this could easily applied to your self-defined REALM. If the last sentence makes no sense for you; don't worry. You can play with the Keycloak Realms (organisation, entity) later on your own. 
+
+
+## Enable User Self-Registration
+Please turn-on self-registration on the Master Realm Settings tab. 
+
+![kc10](kc10.png)
+
+
+
