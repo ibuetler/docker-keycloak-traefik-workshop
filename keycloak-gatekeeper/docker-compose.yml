@@ -8,6 +8,8 @@ services:
      - "traefik.port=3000"
      - "traefik.frontend.rule=Host:ttyd.idocker.hacking-lab.com"
      - "traefik.protocol=http"
+    networks:
+      transit_ttyd:
     volumes:
       - ./keycloak-gatekeeper.conf:/etc/keycloak-gatekeeper.conf
     entrypoint:
@@ -16,7 +18,14 @@ services:
 
   ttyd:
     image: hackinglab/hl-kali-docker-ttyd
+    networks:
+      transit_ttyd:
     labels:
       - "traefik.enable=false"
 
+
+networks:
+  transit:
+  transit_ttyd:
+    external: true
 
