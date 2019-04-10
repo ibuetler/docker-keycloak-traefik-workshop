@@ -242,5 +242,102 @@ Please turn-on self-registration on the Master Realm Settings tab.
 
 ![kc10](kc10.png)
 
+## Testing User Self-Registration
+Please start in Firefox a "New Private Window" and connect to the following URL
+
+https://auth.idocker.hacking-lab.com/auth/realms/master/account
 
 
+![kc11](kc11.png)
+
+Please register a new account
+
+![kc12](kc12.png)
+
+Enter your data here
+
+![kc13](kc13.png)
+
+Use your Firefox instance where you are logged-in as `admin` and check if the user has been created. 
+
+PS: you can setup the user directly within keycloak, if you want. This steps were more to say: "hey, users can self-register in keycloak"
+
+![kc14](kc14.png)
+
+
+## Conclusion "Keycloak Client Configuration"
+Did your really the tutorial until here? This is extremly passionate. Let's briefly give some conclusion what you have reached so far. You did the client configuration in Keycloak, you have created the mappers (access control for the service) and you have created and copied the client secret. 
+
+Furthermore, you have configured the login service to allow self registration and you have tested this by self-registering a test user in a "New Private Browsing Firefox" session. Lastely, you have checked if the newly created user is being listed/available in Keycloak. This is mandatory to have a test account for the next step. 
+
+If you have not missed anything of the steps above, you should now be ready for the last step, configuring keycloak-gatekeeper and applying authentication to the ttyd docker application. 
+
+![lion](lion.png)
+
+## Keycloak Gatekeeper
+First of all, please stop the ttyd docker (only the tty docker, but keep the keycloak and traefik docker up and running). We will start the ttyd together with keycloak-gatekeeper. That's why we must stop it here. 
+
+![run1](run1.png)
+
+### Configure Client Secret
+Please configure your keycloak-gatekeeper with your client secret. 
+```
+cd /opt/git/docker-keycloak-traefik-workshop/keycloak-gatekeeper
+mousepad keycloak-gatekeeper.conf
+```
+
+Please specify your own client secret. Everything else can be the same as in the screenshot below. 
+
+![run2](run2.png)
+
+If you don't remember, the client secret comes from the client configuration tab. Copy your value from there. 
+
+![kc4](kc4.png)
+
+### Docker Compose
+Let's briefly check the docker-compose.yml. This will start your `keycloak-gatekeeper` and the `ttyd` docker service. They share the `transit_ttyd` network. 
+
+```
+cd /opt/git/docker-keycloak-traefik-workshop/keycloak-gatekeeper
+╰─$ cat docker-compose.yml                                             
+version: '2'
+
+services:
+
+  auth-proxy:
+    image: hackinglab/keycloak-gatekeeper:latest
+    labels:
+     - "traefik.port=3000"
+     - "traefik.frontend.rule=Host:ttyd.idocker.hacking-lab.com"
+     - "traefik.protocol=http"
+    networks:
+      transit_ttyd:
+    volumes:
+      - ./keycloak-gatekeeper.conf:/etc/keycloak-gatekeeper.conf
+    entrypoint:
+      - /opt/keycloak-gatekeeper
+      - --config=/etc/keycloak-gatekeeper.conf
+
+  ttyd:
+    image: hackinglab/hl-kali-docker-ttyd
+    networks:
+      transit_ttyd:
+    labels:
+      - "traefik.enable=false"
+
+
+networks:
+  transit:
+  transit_ttyd:
+    external: true
+
+
+```
+
+Now, let's start keycloak-gatekeeper & ttyd using docker-compose
+
+```
+cd /opt/git/docker-keycloak-traefik-workshop/keycloak-gatekeeper
+docker-compose up -d 
+docker-compose logs -f
+```
