@@ -1,0 +1,39 @@
+version: "3.6"
+
+services:
+  lb:
+    image: traefik:v1.7.4-alpine
+    hostname: traefik.idocker.hacking-lab.com
+    environment:
+      TZ: Europe/Zurich
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: >
+      --logLevel='DEBUG'
+      --api.dashboard=true
+      --InsecureSkipVerify=true
+      --entryPoints='Name:http Address::80 Redirect.EntryPoint:https'
+      --entryPoints='Name:https Address::443 TLS'
+      --defaultentrypoints='http,https'
+      --docker
+      --docker.exposedbydefault=true
+      --docker.watch=true
+      --docker.swarmmode=false
+      --docker.endpoint='unix:///var/run/docker.sock'
+    networks:
+      transit_idp:
+      transit_ttyd:
+    labels:
+      traefik.enable: true
+
+
+networks:
+  transit_idp:
+    external: true
+  transit_ttyd:
+    external: true
+
+
