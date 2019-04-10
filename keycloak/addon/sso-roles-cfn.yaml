@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Setup SSO IAM user roles and policies
+Resources:
+  AdminRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: wolfeidau-admin
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+        - Effect: Allow
+          Principal:
+            Federated: !Sub arn:aws:iam::${AWS::AccountId}:saml-provider/docker-keycloak
+          Action: sts:AssumeRoleWithSAML
+          Condition:
+            StringEquals:
+              SAML:aud: https://signin.aws.amazon.com/saml
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/AdministratorAccess
+      Path: /
+
+Outputs:
+  SSOAdminRoleIdentifer: 
+    Description: Admin Role ARN
+    Value:
+      !Join
+       - ','
+       - - !GetAtt AdminRole.Arn
+         - !Sub arn:aws:iam::${AWS::AccountId}:saml-provider/docker-keycloak
+      

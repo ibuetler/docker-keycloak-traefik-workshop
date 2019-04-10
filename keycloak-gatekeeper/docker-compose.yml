@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+
+  auth-proxy:
+    image: hackinglab/keycloak-gatekeeper:latest
+    labels:
+     - "traefik.port=3000"
+     - "traefik.frontend.rule=Host:ttyd.idocker.hacking-lab.com"
+     - "traefik.protocol=http"
+    volumes:
+      - ./keycloak-gatekeeper.conf:/etc/keycloak-gatekeeper.conf
+    entrypoint:
+      - /opt/keycloak-gatekeeper
+      - --config=/etc/keycloak-gatekeeper.conf
+
+  ttyd:
+    image: hackinglab/hl-kali-docker-ttyd
+    labels:
+      - "traefik.enable=false"
+
+

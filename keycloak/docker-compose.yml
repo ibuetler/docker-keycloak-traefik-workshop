@@ -1,0 +1,50 @@
+version: "3.4"
+
+services:
+  keycloak_db:
+    image: postgres:11.2-alpine
+    environment:
+        - POSTGRES_DB=keycloak
+        - POSTGRES_USER=keycloak
+        - POSTGRES_PASSWORD=changeme-postgres
+        - POSTGRES_ROOT_PASSWORD=changeme-rootpw
+    networks:
+      transit_idp:
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    labels:
+      - "traefik.enable=false"
+
+  keycloak:
+    image: jboss/keycloak:latest
+    hostname: keycloak
+    environment:
+      - DB_VENDOR=POSTGRES
+      - DB_ADDR=keycloak_db
+      - DB_DATABASE=keycloak
+      - DB_USER=keycloak
+      - DB_SCHEMA=public
+      - DB_PASSWORD=changeme-postgres
+      - PROXY_ADDRESS_FORWARDING=true
+      - KEYCLOAK_LOGLEVEL=INFO
+      - POSTGRES_ADDR=keycloak_db
+      - POSTGRES_PORT=5432
+      - POSTGRES_DATABASE=keycloak
+      - POSTGRES_USER=keycloak
+      - POSTGRES_PASSWORD=changeme-postgres
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=changeme-keycloak
+    networks:
+      transit_idp:
+    labels:
+      - traefik.port=8443
+      - traefik.frontend.rule=Host:auth.idocker.hacking-lab.com
+      - traefik.protocol=https
+    command: ["-b", "0.0.0.0", "-Dkeycloak.profile.feature.docker=enabled"]
+
+
+networks:
+  transit_idp:
+    external: true
+
+

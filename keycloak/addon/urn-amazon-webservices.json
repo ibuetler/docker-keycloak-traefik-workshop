@@ -1,0 +1,176 @@
+{
+    "id": "6c684579-51a1-4bdf-a694-d641199874d8",
+    "clientId": "urn:amazon:webservices",
+    "baseUrl": "/auth/realms/wolfeidau/protocol/saml/clients/amazon-aws",
+    "surrogateAuthRequired": false,
+    "enabled": true,
+    "clientAuthenticatorType": "client-secret",
+    "redirectUris": [
+        "https://signin.aws.amazon.com/saml"
+    ],
+    "webOrigins": [
+        "https://signin.aws.amazon.com"
+    ],
+    "notBefore": 0,
+    "bearerOnly": false,
+    "consentRequired": false,
+    "standardFlowEnabled": true,
+    "implicitFlowEnabled": false,
+    "directAccessGrantsEnabled": false,
+    "serviceAccountsEnabled": false,
+    "publicClient": false,
+    "frontchannelLogout": true,
+    "protocol": "saml",
+    "attributes": {
+        "saml.assertion.signature": "true",
+        "saml.force.post.binding": "true",
+        "saml.multivalued.roles": "false",
+        "saml.encrypt": "false",
+        "saml_assertion_consumer_url_post": "https://signin.aws.amazon.com/saml",
+        "saml_idp_initiated_sso_url_name": "amazon-aws",
+        "saml.server.signature": "true",
+        "saml.server.signature.keyinfo.ext": "false",
+        "saml.signing.certificate": "MIIDbTCCAlWgAwIBAgIEKcG1VzANBgkqhkiG9w0BAQsFADBnMR8wHQYDVQQDExZ1cm46YW1hem9uOndlYnNlcnZpY2VzMSIwIAYDVQQKExlBbWF6b24gV2ViIFNlcnZpY2VzLCBJbmMuMRMwEQYDVQQIEwpXYXNoaW5ndG9uMQswCQYDVQQGEwJVUzAeFw0xNzEwMzEwMDAwMDBaFw0xODEwMzEwMDAwMDBaMGcxHzAdBgNVBAMTFnVybjphbWF6b246d2Vic2VydmljZXMxIjAgBgNVBAoTGUFtYXpvbiBXZWIgU2VydmljZXMsIEluYy4xEzARBgNVBAgTCldhc2hpbmd0b24xCzAJBgNVBAYTAlVTMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAopQTJjMKQl7xIJWDEwMcB61o5prZ07kRGqu5/B/lqpsf3jT3GAaO6tc97erS18yXcftHjnQBb8MnQhOkTNQfQ7SFG11OThjyGCyoP5mIWTyvMOPN8MhNhB60EBAK7F9nScZLu4kYxLIIpJGgknu6O+EuE6K8eNN0MwKjQxOsVY0M/c4IF07eDSw34YDEtBRRAVxUMZMx7qGIoxuw3XBowfs4dhtWTj6ZlGxZa7xXce/VVp8pPNf7Pe0+NPOOY56cotAe+XKsfKH0OxWJJx2/Bkej/uxTiBzq0vPOfhGzajZzdFvvPQnc9sBKgQPE7wyUnZP8NoY7JzFOd1AXEio6UwIDAQABoyEwHzAdBgNVHQ4EFgQUJwnbmNjirb3fSYaQmhosuvKpER0wDQYJKoZIhvcNAQELBQADggEBABliPs5kFBjSxFlp6Vy+B1/KVA0L2OT/b2wGRWxFFJREAWyyjOvEbwQTvVOw3+QSAibs+8G14HX932Hj1Z1PcT2nikuSpjXaezh9+Cufn7jjE/0U0vKtwm6uKJ5esdI8l/8WgOHlWhWbC4K5fsajvXTDQQbXcYdwTKprw7bbMroGf0TFEZaGnykpIENkAxuD5zj5J3ToLsgiHNGpHmErKYfjmsnplhJQee/r3zAR9Z7YKovh8Ke2KJjfmv7sWdgosV++nBDN7bofXZyjoTDmTt6bPzwWPPTroG2SHG0r6/A74dXLyjnbeOxTQC/K29WOWcqA3oshinI91KJo7fDfYSA=",
+        "saml.signature.algorithm": "RSA_SHA256",
+        "saml_force_name_id_format": "false",
+        "saml.client.signature": "true",
+        "saml.authnstatement": "true",
+        "saml_name_id_format": "transient",
+        "saml.onetimeuse.condition": "false",
+        "saml_signature_canonicalization_method": "http://www.w3.org/2001/10/xml-exc-c14n#"
+    },
+    "fullScopeAllowed": false,
+    "nodeReRegistrationTimeout": -1,
+    "protocolMappers": [
+        {
+            "id": "4b4eacc7-e841-453b-8eaf-029a835d6127",
+            "name": "full name",
+            "protocol": "openid-connect",
+            "protocolMapper": "oidc-full-name-mapper",
+            "consentRequired": true,
+            "consentText": "${fullName}",
+            "config": {
+                "id.token.claim": "true",
+                "access.token.claim": "true",
+                "userinfo.token.claim": "true"
+            }
+        },
+        {
+            "id": "ddd1ee82-049d-4745-802f-93e241370cf5",
+            "name": "Session Name",
+            "protocol": "saml",
+            "protocolMapper": "saml-user-property-mapper",
+            "consentRequired": false,
+            "config": {
+                "attribute.nameformat": "Basic",
+                "role": "",
+                "new.role.name": "",
+                "friendly.name": "Session Name",
+                "user.attribute": "username",
+                "attribute.name": "https://aws.amazon.com/SAML/Attributes/RoleSessionName"
+            }
+        },
+        {
+            "id": "456ebcb9-50e9-4392-a5a7-0a974bf57e2e",
+            "name": "Session Role",
+            "protocol": "saml",
+            "protocolMapper": "saml-role-list-mapper",
+            "consentRequired": false,
+            "config": {
+                "single": "true",
+                "attribute.nameformat": "Basic",
+                "role": "",
+                "new.role.name": "",
+                "friendly.name": "Session Role",
+                "attribute.name": "https://aws.amazon.com/SAML/Attributes/Role"
+            }
+        },
+        {
+            "id": "6961c7e5-6419-4e27-bca8-1683997b4dec",
+            "name": "email",
+            "protocol": "openid-connect",
+            "protocolMapper": "oidc-usermodel-property-mapper",
+            "consentRequired": true,
+            "consentText": "${email}",
+            "config": {
+                "userinfo.token.claim": "true",
+                "user.attribute": "email",
+                "id.token.claim": "true",
+                "access.token.claim": "true",
+                "claim.name": "email",
+                "jsonType.label": "String"
+            }
+        },
+        {
+            "id": "8bff5d65-2d15-4384-8b58-b036a1ad0913",
+            "name": "family name",
+            "protocol": "openid-connect",
+            "protocolMapper": "oidc-usermodel-property-mapper",
+            "consentRequired": true,
+            "consentText": "${familyName}",
+            "config": {
+                "userinfo.token.claim": "true",
+                "user.attribute": "lastName",
+                "id.token.claim": "true",
+                "access.token.claim": "true",
+                "claim.name": "family_name",
+                "jsonType.label": "String"
+            }
+        },
+        {
+            "id": "49be4911-ff11-4e43-9ac1-c410c7e8a89c",
+            "name": "given name",
+            "protocol": "openid-connect",
+            "protocolMapper": "oidc-usermodel-property-mapper",
+            "consentRequired": true,
+            "consentText": "${givenName}",
+            "config": {
+                "userinfo.token.claim": "true",
+                "user.attribute": "firstName",
+                "id.token.claim": "true",
+                "access.token.claim": "true",
+                "claim.name": "given_name",
+                "jsonType.label": "String"
+            }
+        },
+        {
+            "id": "784033fd-343e-4fef-baea-29ab3465fac8",
+            "name": "Session Duration",
+            "protocol": "saml",
+            "protocolMapper": "saml-hardcode-attribute-mapper",
+            "consentRequired": false,
+            "config": {
+                "attribute.nameformat": "Basic",
+                "role": "",
+                "new.role.name": "",
+                "friendly.name": "Session Duration",
+                "attribute.value": "28800",
+                "attribute.name": "https://aws.amazon.com/SAML/Attributes/SessionDuration"
+            }
+        },
+        {
+            "id": "8a154378-0123-4673-8904-fc7fbd779a80",
+            "name": "username",
+            "protocol": "openid-connect",
+            "protocolMapper": "oidc-usermodel-property-mapper",
+            "consentRequired": true,
+            "consentText": "${username}",
+            "config": {
+                "userinfo.token.claim": "true",
+                "user.attribute": "username",
+                "id.token.claim": "true",
+                "access.token.claim": "true",
+                "claim.name": "preferred_username",
+                "jsonType.label": "String"
+            }
+        }
+    ],
+    "useTemplateConfig": false,
+    "useTemplateScope": false,
+    "useTemplateMappers": false,
+    "access": {
+        "view": true,
+        "configure": true,
+        "manage": true
+    }
+}
