@@ -80,8 +80,42 @@ The commands below will start the ttyd docker and is registering the ttyd servic
 
 ```
 cd /opt/git/docker-keycloak-traefik-workshop/ttyd
-docker-compose up 
+docker-compose up -d
+docker-compose logs -f
 ```
+
+### Step 4: Add three hosts into /etc/hosts
+Before you can test the traefik and ttyd daemon, you must add three host entries into the /etc/hosts file. This is, because we do the demo without real DNS names. 
+
+```
+echo "127.0.0.1       ttyd.idocker.hacking-lab.com" >> /etc/hosts
+echo "127.0.0.1       auth.idocker.hacking-lab.com" >> /etc/hosts
+echo "127.0.0.1       traefik.idocker.hacking-lab.com" >> /etc/hosts
+```
+
+### Step 5: Testing ttyd via traefik
+Now you should have the /etc/hosts entries, in one linux terminal you should have your traefik docker service up and running and in another linux terminal you should have the ttyd docker service up and running. 
+
+Can you answer all these `pre-requirements` with YES? 
+
+![prereq](prereq.png)
+
+Ok, then let's see how it works using the browser. 
+
+Please open Firefox and point your browser to https://ttyd.idocker.hacking-lab.com 
+
+
+![tls](tls.png)
+
+
+Due to the self-signed TLS certificates (traefik will generate them on the fly for you) you must click on "Advanced" and "Add Exception" to proceed. And as you can see in the screenshot below, the ttyd is not secured with the https of the traefik load balancer (but still without authentication). 
+
+![ttyd2](ttyd2.png)
+
+## Conclusion 0x01
+If you did the tutorial until here? This is awesome. Until now you have setup a load balancer (traefik) and you put a service (ttyd) behind the load balancer. You have SSL/TLS up and running and the dynamic registration of your application (ttyd) with traefik works like charm. You have not yet added authentication to it (next step) but still, this is a first success. 
+
+![lion](lion.png)
 
 
 
