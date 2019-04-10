@@ -22,16 +22,12 @@ services:
       - DB_VENDOR=POSTGRES
       - DB_ADDR=keycloak_db
       - DB_DATABASE=keycloak
+      - DB_PORT=5432
       - DB_USER=keycloak
       - DB_SCHEMA=public
       - DB_PASSWORD=changeme-postgres
       - PROXY_ADDRESS_FORWARDING=true
       - KEYCLOAK_LOGLEVEL=INFO
-      - POSTGRES_ADDR=keycloak_db
-      - POSTGRES_PORT=5432
-      - POSTGRES_DATABASE=keycloak
-      - POSTGRES_USER=keycloak
-      - POSTGRES_PASSWORD=changeme-postgres
       - KEYCLOAK_USER=admin
       - KEYCLOAK_PASSWORD=changeme-keycloak
     networks:
@@ -46,5 +42,3 @@ services:
 networks:
   transit_idp:
     external: true
-
-

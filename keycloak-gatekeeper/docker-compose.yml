@@ -2,7 +2,7 @@ version: '2'
 
 services:
 
-  auth-proxy:
+  keycloak-gatekeeper:
     image: hackinglab/keycloak-gatekeeper:latest
     labels:
      - "traefik.port=3000"
@@ -10,6 +10,8 @@ services:
      - "traefik.protocol=http"
     networks:
       transit_ttyd:
+    external_links:
+      - traefik:auth.idocker.hacking-lab.com
     volumes:
       - ./keycloak-gatekeeper.conf:/etc/keycloak-gatekeeper.conf
     entrypoint:
@@ -25,7 +27,6 @@ services:
 
 
 networks:
-  transit:
   transit_ttyd:
     external: true
 
