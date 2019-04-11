@@ -177,7 +177,7 @@ If you did the tutorial until here? You are awesome. You have now Keycloak IdP, 
 ## Final Demo Setup
 Please note; We want to secure an application (ttyd) that comes without built-in authentication and authorization and have therefore configured `traefik`, `keycloak` and `ttyd` in the steps above. 
 
-What is the final step? A new docker is required. The `keycloak-gatekeeper` docker image in front of the ttyd docker will do the job for us. The `keycloak-gatekeerp` docker service will ensure users must authenticate before the ttyd service can be used. In other words, keycloak-gatekeeper is kind of a reverse-proxy in front of our application that has no built-in authentication and authorization layer but integrates very well with Keycloak IdP. 
+What is the final step? A new docker is required. The `keycloak-gatekeeper` docker image in front of the ttyd docker will do the job for us. The `keycloak-gatekeeper` docker service will ensure users must authenticate before the ttyd service can be used. In other words, keycloak-gatekeeper is kind of a reverse-proxy in front of our application that has no built-in authentication and authorization layer but integrates very well with Keycloak IdP. 
 
 ![gk](images/gk.png)
 
