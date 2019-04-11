@@ -272,12 +272,18 @@ Furthermore, you have configured the login service to allow self registration an
 
 If you have not missed anything of the steps above, you should now be ready for the last step, configuring keycloak-gatekeeper and applying authentication to the ttyd docker application. 
 
-![lion](images/lion.png)
+![lion](images/ok.png)
 
 ## Keycloak Gatekeeper
 First of all, please stop the ttyd docker (only the tty docker, but keep the keycloak and traefik docker up and running). We will start the ttyd together with keycloak-gatekeeper. That's why we must stop it here. 
 
 ![run1](images/run1.png)
+
+With CTRL-C, you are only stopping the log watch. Thus, please stop the docker using the following command
+
+```
+docker-compose down
+```
 
 ### Configure Client Secret
 Please configure your keycloak-gatekeeper with your client secret. 
@@ -341,3 +347,12 @@ cd /opt/git/docker-keycloak-traefik-workshop/keycloak-gatekeeper
 docker-compose up -d 
 docker-compose logs -f
 ```
+
+
+## THE END
+After this tutorial you should have an application (ttyd) that comes without authentication and authorization secured using traefik, keycloak and keycloak-gateeeper. The steps taken in this tutorial hopefully have guided you to the end - to a working setup. 
+
+`Thank you, Ivan Bütler`
+
+
+![lion](images/happy.png)
