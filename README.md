@@ -356,4 +356,4 @@ After this tutorial you should have an application (ttyd) that comes without aut
 `Thank you, Ivan Bütler`
 
 
-![lion](images/happy.png)
+![happy](images/happy.png)
