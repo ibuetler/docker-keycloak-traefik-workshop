@@ -223,8 +223,9 @@ Please configure the mapper the same as in the screenshot below. Most important,
 
 1. Name = ttyd 
 2. Mapper Type = Audience
-3. Add to ID token = ON
-4. Add to access token = ON 
+3. Included Client Audience = ttyd
+4. Add to ID token = ON
+5. Add to access token = ON 
 
 ![kc8](images/audience.png)
 
