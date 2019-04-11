@@ -266,7 +266,7 @@ PS: you can setup the user directly within keycloak, if you want. This steps wer
 
 
 ## Conclusion "Keycloak Client Configuration"
-Did your really the tutorial until here? This is extremly passionate. Let's briefly give some conclusion what you have reached so far. You did the client configuration in Keycloak, you have created the mappers (access control for the service) and you have created and copied the client secret. 
+Did your really do the tutorial until here? This is extremly passionate. Let's briefly give some conclusion what you have reached so far. You did the client configuration in Keycloak, you have created the mappers (access control for the service) and you have created and copied the client secret. 
 
 Furthermore, you have configured the login service to allow self registration and you have tested this by self-registering a test user in a "New Private Browsing Firefox" session. Lastely, you have checked if the newly created user is being listed/available in Keycloak. This is mandatory to have a test account for the next step. 
 
