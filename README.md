@@ -286,7 +286,7 @@ cd /opt/git/docker-keycloak-traefik-workshop/keycloak-gatekeeper
 mousepad keycloak-gatekeeper.conf
 ```
 
-Please specify your own `client secreti`. Everything else can be the same as in the screenshot below. 
+Please specify your own `client secret`. Everything else can be the same as in the screenshot below. 
 
 ![run2](images/run2.png)
 
