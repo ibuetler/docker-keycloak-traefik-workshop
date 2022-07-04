@@ -14,7 +14,7 @@ See the screenshot below how to pull and run and test ttyd
 
 ![ttyd1](images/ttyd1.png)
 
-Please give it a try! I am doing this demo using the latest Hacking-Lab LiveCD from https://livecd.hacking-lab.com/, as the LiveCD has docker and everything already configured and works like charm. If you want to use the Hacking-Lab LiveCD too, please follow the following installation instructions
+Please give it a try! I am doing this demo using the latest Hacking-Lab LiveCD from https://livecd.hacking-lab.com/, as the LiveCD has docker and everything already configured and works like a charm. If you want to use the Hacking-Lab LiveCD too, please follow the following installation instructions
 
 https://github.com/ibuetler/e1pub/tree/master/hacking-lab-livecd-installation
 
@@ -108,12 +108,12 @@ Please open Firefox and point your browser to https://ttyd.idocker.hacking-lab.c
 ![tls](images/tls.png)
 
 
-Due to the self-signed TLS certificates (traefik will generate them on the fly for you) you must click on "Advanced" and "Add Exception" to proceed. And as you can see in the screenshot below, the ttyd is not secured with the https of the traefik load balancer (but still without authentication). 
+Due to the self-signed TLS certificates (traefik will generate them on the fly for you) you must click on "Advanced" and "Add Exception" to proceed. And as you can see in the screenshot below, the ttyd is now secured with the https of the traefik load balancer (but still without authentication). 
 
 ![ttyd2](images/ttyd2.png)
 
 ## Conclusion Step 1-5
-If you did the tutorial until here? This is awesome. Until now you have setup a load balancer (traefik) and you put a service (ttyd) behind the load balancer. You have SSL/TLS up and running and the dynamic registration of your application (ttyd) with traefik works like charm. You have not yet added authentication to it (next step) but still, this is a first success. 
+If you did the tutorial until here? This is awesome. Until now you have setup a load balancer (traefik) and you put a service (ttyd) behind the load balancer. You have SSL/TLS up and running and the dynamic registration of your application (ttyd) with traefik works like a charm. You have not yet added authentication to it (next step) but still, this is a first success. 
 
 ![lion](images/lion.png)
 
@@ -164,7 +164,7 @@ password: changeme-keycloak
 
 ![keycloaklogin](images/keycloaklogin.png)
 
-And voilà, your keycloak IdP should be up and working
+And voilà, your keycloak IdP should be up and working.
 
 ![keycloakok](images/keycloakok.png)
 
@@ -191,23 +191,23 @@ You must create a new client in Keycloak. Please follow the screenshots below. P
 
 ![kc1](images/kc1.png)
 
-Please give it a name and configure the client URL. For this tutorial `https://ttyd.idocker.hacking-lab.com` 
+Please give it a name and configure the client URL. For this tutorial `https://ttyd.idocker.hacking-lab.com`.
 
 ![kc2](images/kc2.png)
 
-Press choose "confidential" in the "Access Type" item and press "Save"
+Press choose "confidential" in the "Access Type" item and press "Save".
 
 ![kc3](images/kc3.png)
 
-After saving, please click the "Credentials" menu item where you will find the secret we need for keycloak-gatekeeper. Copy the Secret as you need it later when configuring `keycloak-gatekeeper`
+After saving, please click the "Credentials" menu item where you will find the secret we need for keycloak-gatekeeper. Copy the Secret as you need it later when configuring `keycloak-gatekeeper`.
 
 ![kc4](images/kc4.png)
 
 
 ## Create Client Audience and Scope
-With the new Keycloak software, a user must be assigned to a valid audience and scope before he or she can use a keycloak enabled service. Thus, let's configure the audience and scope. 
+With the new Keycloak software, users must be assigned to a valid audience and scope before they can use a keycloak enabled service. Thus, let's configure the audience and scope. 
 
-Please click on "Client Scopes" in the left menu and press "Create"
+Please click on "Client Scopes" in the left menu and press "Create".
 
 ![kc5](images/kc5.png)
 
@@ -233,13 +233,13 @@ Last, you must apply the newly created mapper to your ttyd client configuration.
 
 ![kc9](images/kc9.png)
 
-Now you have successfully finished the keycloak configuration for the new (ttyd) client application. 
+Now you have successfully finished the Keycloak configuration for the new (ttyd) client application. 
 
-The settings are applied to the "Master Realm". If we would have created a new REALM when we started configuring keycloak, this could easily applied to your self-defined REALM. If the last sentence makes no sense for you; don't worry. You can play with the Keycloak Realms (organisation, entity) later on your own. 
+The settings are applied to the "Master Realm". If we would have created a new REALM when we started configuring Keycloak, this could as easily be applied to your self-defined REALM. If the last sentence makes no sense to you; don't worry. You can play with the Keycloak Realms (organisation, entity) later on your own. 
 
 
 ## Enable User Self-Registration
-Please turn-on self-registration on the Master Realm Settings tab. 
+Please switch on "User registration" on the Master Realm Settings tab. 
 
 ![kc10](images/kc10.png)
 
@@ -261,13 +261,13 @@ Enter your data here
 
 Use your Firefox instance where you are logged-in as `admin` and check if the user has been created. 
 
-PS: you can setup the user directly within keycloak, if you want. This steps were more to say: "hey, users can self-register in keycloak"
+PS: you can setup the user directly within Keycloak, if you want. These steps were more to say: "hey, users can self-register in Keycloak".
 
 ![kc14](images/kc14.png)
 
 
 ## Conclusion "Keycloak Client Configuration"
-Did your really do the tutorial until here? This is extremly passionate. Let's briefly give some conclusion what you have reached so far. You did the client configuration in Keycloak, you have created the mappers (access control for the service) and you have created and copied the client secret. 
+Did your really do the tutorial until here? This is extremely passionate. Let's briefly give some conclusion what you have reached so far. You did the client configuration in Keycloak, you have created the mappers (access control for the service) and you have created and copied the client secret. 
 
 Furthermore, you have configured the login service to allow self registration and you have tested this by self-registering a test user in a "New Private Browsing Firefox" session. Lastely, you have checked if the newly created user is being listed/available in Keycloak. This is mandatory to have a test account for the next step. 
 
@@ -334,14 +334,13 @@ services:
 
 
 networks:
-  transit:
   transit_ttyd:
     external: true
 
 
 ```
 
-Now, let's start keycloak-gatekeeper & ttyd using docker-compose
+Now, let's start keycloak-gatekeeper & ttyd using docker-compose.
 
 ```
 cd /opt/git/docker-keycloak-traefik-workshop/keycloak-gatekeeper
