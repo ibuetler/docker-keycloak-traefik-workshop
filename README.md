@@ -108,7 +108,7 @@ Please open Firefox and point your browser to https://ttyd.idocker.hacking-lab.c
 ![tls](images/tls.png)
 
 
-Due to the self-signed TLS certificates (traefik will generate them on the fly for you) you must click on "Advanced" and "Add Exception" to proceed. And as you can see in the screenshot below, the ttyd is not secured with the https of the traefik load balancer (but still without authentication). 
+Due to the self-signed TLS certificates (traefik will generate them on the fly for you) you must click on "Advanced" and "Add Exception" to proceed. And as you can see in the screenshot below, the ttyd is now secured with the https of the traefik load balancer (but still without authentication). 
 
 ![ttyd2](images/ttyd2.png)
 
